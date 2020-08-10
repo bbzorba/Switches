@@ -1,16 +1,27 @@
 pragma solidity >=0.4.22 <0.8.0;
 
 contract Switches {
-
+    
+    address public addr;
 	address public addressA;
 	address public addressB;
 	address public addressC;
 	mapping (bytes32 => address) signatures;
+	uint32 public channel;
 
-function Switches()
+function Switches(address addr, channel)
     {
-    switch (address)
-        case 0 {
+    switch addr
+        case addressA {
+            Payment(addressA,100);
+            switch (channel)
+                case 
+                    CloseChannel(h,v,r,s,10); //10 ETH channel
+                    ChannelTimeout();
+                    
+                    
+        }
+        case addressB {
             
         }
         default {
@@ -19,90 +30,54 @@ function Switches()
     }
 
 
-
-    contract Channel {
-        address public sender;     // sender's address
-        address public recipient;  // recipient's address
-        uint256 public expiration; // Timeout
     
-        function PaymentChannel(address _recipient, uint256 duration)
-            public
-            payable
-        {
-            sender = msg.sender;
-            recipient = _recipient;
-            expiration = now + duration;
-        }
+    contract PaymentChannel {
     
-        function VerifySignature(uint256 amount, bytes signature)
-            internal
-            view
-            returns (bool)
-        {
-            bytes32 message = prefixed(keccak256(this, amount));
+    	address public channelSender;
+    	address public channelRecipient;
+    	uint public startDate;
+    	uint public channelTimeout;
+    	mapping (bytes32 => address) signatures;
     
-            return recoverSigner(message, signature) == sender;
-        }
+    	function Payment(address to, uint timeout) payable {
+    		channelRecipient = to;
+    		channelSender = msg.sender;
+    		startDate = now;
+    		channelTimeout = timeout;
+    	}
     
-        function close(uint256 amount, bytes signature) public {
-            require(msg.sender == recipient);
-            require(VerifySignature(amount, signature));
+    	function CloseChannel(bytes32 h, uint8 v, bytes32 r, bytes32 s, uint value){
     
-            recipient.transfer(amount);
-            selfdestruct(sender);
-        }
+    		address signer;
+    		bytes32 proof;
     
-        // The sender can extend the expiration at any time.
-        function extend(uint256 newExpiration) public {
-            require(msg.sender == sender);
-            require(newExpiration > expiration);
+    		// get signer from signature
+    		signer = ecrecover(h, v, r, s);
     
-            expiration = newExpiration;
-        }
+    		// signature is invalid, throw
+    		if (signer != channelSender && signer != channelRecipient) throw;
     
+    		proof = sha3(this, value);
     
-        function claimTimeout() public {
-            require(now >= expiration);
-            selfdestruct(sender);
-        }
+    		// signature is valid but doesn't match the data provided
+    		if (proof != h) throw;
     
-        function splitSignature(bytes sig)
-            internal
-            pure
-            returns (uint8, bytes32, bytes32)
-        {
-            require(sig.length == 65);
+    		if (signatures[proof] == 0)
+    			signatures[proof] = signer;
+    		else if (signatures[proof] != signer){
+    			// channel completed, both signatures provided
+    			if (!channelRecipient.send(value)) throw;
+    			selfdestruct(channelSender);
+    		}
     
-            bytes32 r;
-            bytes32 s;
-            uint8 v;
+    	}
     
-            assembly {
-                // first 32 bytes, after the length prefix
-                r := mload(add(sig, 32))
-                // second 32 bytes
-                s := mload(add(sig, 64))
-                // final byte (first byte of the next 32 bytes)
-                v := byte(0, mload(add(sig, 96)))
-            }
+    	function ChannelTimeout(){
+    		if (startDate + channelTimeout > now)
+    			throw;
     
-            return (v, r, s);
-        }
+    		selfdestruct(channelSender);
+    	}
     
-        function recoverSigner(bytes32 message, bytes sig)
-            internal
-            pure
-            returns (address)
-        {
-            uint8 v;
-            bytes32 r;
-            bytes32 s;
-    
-            (v, r, s) = splitSignature(sig);
-    
-            return ecrecover(message, v, r, s);
-        }
-        
     }
-
 }
