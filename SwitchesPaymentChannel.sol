@@ -40,7 +40,7 @@ function Switches(address addr, channel)
     	mapping (bytes32 => address) signatures;
     
     	function Payment(address receiver, uint timeout) 
-	payable {
+	public payable {
     		channelRecipient = receiver;
     		channelSender = msg.sender;
     		startDate = now;
