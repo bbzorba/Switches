@@ -35,7 +35,7 @@ function Switches(address addr, channel)
     
     	address public channelSender;
     	address public channelRecipient;
-    	uint public startDate;
+    	uint public channelBegin;
     	uint public channelTimeout;
     	mapping (bytes32 => address) signatures;
     
@@ -43,7 +43,7 @@ function Switches(address addr, channel)
 	public payable {
     		channelRecipient = receiver;
     		channelSender = msg.sender;
-    		startDate = now;
+    		channelBegin = now;
     		channelTimeout = timeout;
     	}
     
@@ -74,7 +74,7 @@ function Switches(address addr, channel)
     	}
     
     	function ChannelTimeout(){
-    		if (startDate + channelTimeout > now)
+    		if (channelBegin + channelTimeout > now)
     			throw;
     
     		selfdestruct(channelSender);
