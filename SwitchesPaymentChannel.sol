@@ -56,19 +56,22 @@ function Switches(address addr, channel)
     		signer = ecrecover(h, v, r, s);
     
     		// signature is invalid, throw
-    		if (signer != channelSender && signer != channelRecipient) throw;
+    		if (signer != channelSender && signer != channelRecipient)
+			throw;
     
     		proof = sha3(this, value);
     
     		// signature is valid but doesn't match the data provided
-    		if (proof != h) throw;
+    		if (proof != h) 
+			throw;
     
     		if (signatures[proof] == 0)
     			signatures[proof] = signer;
     		else if (signatures[proof] != signer){
     			// channel completed, both signatures provided
-    			if (!channelRecipient.send(value)) throw;
-    			selfdestruct(channelSender);
+    			if (!channelRecipient.send(value)) 
+				throw;
+    				selfdestruct(channelSender);
     		}
     
     	}
