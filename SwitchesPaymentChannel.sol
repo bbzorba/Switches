@@ -39,8 +39,9 @@ function Switches(address addr, channel)
     	uint public channelTimeout;
     	mapping (bytes32 => address) signatures;
     
-    	function Payment(address to, uint timeout) payable {
-    		channelRecipient = to;
+    	function Payment(address receiver, uint timeout) 
+	payable {
+    		channelRecipient = receiver;
     		channelSender = msg.sender;
     		startDate = now;
     		channelTimeout = timeout;
@@ -51,7 +52,7 @@ function Switches(address addr, channel)
     		address signer;
     		bytes32 proof;
     
-    		// get signer from signature
+    		// get from signature
     		signer = ecrecover(h, v, r, s);
     
     		// signature is invalid, throw
