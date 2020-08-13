@@ -2,13 +2,11 @@ pragma solidity >=0.4.22 <0.8.0;
 
 contract Switches {
     
-    address public addr;
 	address public addressA;
 	address public addressB;
 	address public addressC;
-	uint32 public channel;
 
-function Switches(address addr, channel)
+function Switches(address addr, uint32 channel)
     {
     switch addr
         case addressA {
