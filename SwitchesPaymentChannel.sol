@@ -5,24 +5,59 @@ contract Switches {
 	address public addressA;
 	address public addressB;
 	address public addressC;
-
-function Switches(address addr, uint32 channel)
-    {
-    switch addr
-        case addressA {
-            Payment(addressA,100);
-            switch (channel)
-                case 
-                    CloseChannel(h,v,r,s,10); //10 ETH channel
-                    ChannelTimeout();
+    uint x = 5;
+    uint y = 10;
+    uint z = 1;
+    
+    function Switches(address addr, uint32 channel){
+        switch addr {
+            case addressA {
+                switch (channel) {
+                    case x {
+                        GetChannelId();
+                        OpenChannel();
+                        CloseChannel();
+                        ChannelTimeout();
+                    }
                     
+                    case y {
+                        GetChannelId();
+                        OpenChannel();
+                        CloseChannel();
+                        ChannelTimeout();
+                    }
                     
-        }
-        case addressB {
-            
-        }
-        default {
-            
+                    default {
+                        ChannelTimeout();
+                    }
+                    
+                }
+            }
+            case addressB {
+                switch (channel) {
+                    case x {
+                        GetChannelId();
+                        OpenChannel();
+                        CloseChannel();
+                        ChannelTimeout();
+                    }
+                    
+                    case z {
+                        GetChannelId();
+                        OpenChannel();
+                        CloseChannel();
+                        ChannelTimeout();
+                    }
+                    
+                    default {
+                        ChannelTimeout();
+                    }
+                    
+                }
+            }
+            default {
+                ChannelTimeout();
+            }
         }
     }
 
