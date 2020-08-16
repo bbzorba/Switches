@@ -8,6 +8,7 @@ contract Switches {
     uint x = 5;
     uint y = 10;
     uint z = 1;
+    uint channel;
     
     function Switches(address addr, uint32 channel){
         switch addr {
