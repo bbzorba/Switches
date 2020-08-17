@@ -9,6 +9,9 @@ contract Switches {
     uint y = 10;
     uint z = 1;
     uint channel;
+    uint rankA;
+    uint rankB;
+    uint rankC;
     
     function Switches(address addr, uint32 channel){
         switch addr {
@@ -19,6 +22,7 @@ contract Switches {
                         OpenChannel();
                         CloseChannel();
                         ChannelTimeout();
+                        rankA++;
                     }
                     
                     case y {
@@ -26,6 +30,7 @@ contract Switches {
                         OpenChannel();
                         CloseChannel();
                         ChannelTimeout();
+                        rankA++;
                     }
                     
                     default {
@@ -41,6 +46,7 @@ contract Switches {
                         OpenChannel();
                         CloseChannel();
                         ChannelTimeout();
+                        rankB++;
                     }
                     
                     case z {
@@ -48,6 +54,7 @@ contract Switches {
                         OpenChannel();
                         CloseChannel();
                         ChannelTimeout();
+                        rankB++;
                     }
                     
                     default {
