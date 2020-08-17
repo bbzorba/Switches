@@ -164,9 +164,7 @@ contract Switches {
             // Pay out recipient and refund sender the remainder
             if (!_channel.recipient.send(value)) { throw; }
             else if (!_channel.sender.send(_channel.deposit-value)) { throw; }
-            // Close the channel
-            delete channels[h[0]];
-            delete active_ids[_channel.sender][_channel.recipient];
+            // DO NOT close the channel
         }
         
         function ChannelTimeout(bytes32 id){
