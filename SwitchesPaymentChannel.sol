@@ -21,7 +21,6 @@ contract Switches {
                         GetChannelId();
                         OpenChannel();
                         CloseChannel();
-                        ChannelTimeout();
                         rankA++;
                     }
                     
@@ -29,7 +28,6 @@ contract Switches {
                         GetChannelId();
                         OpenChannel();
                         CloseChannel();
-                        ChannelTimeout();
                         rankA++;
                     }
                     
@@ -45,7 +43,6 @@ contract Switches {
                         GetChannelId();
                         OpenChannel();
                         CloseChannel();
-                        ChannelTimeout();
                         rankB++;
                     }
                     
@@ -53,7 +50,6 @@ contract Switches {
                         GetChannelId();
                         OpenChannel();
                         CloseChannel();
-                        ChannelTimeout();
                         rankB++;
                     }
                     
