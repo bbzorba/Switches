@@ -164,7 +164,14 @@ contract Switches {
             // Pay out recipient and refund sender the remainder
             if (!_channel.recipient.send(value)) { throw; }
             else if (!_channel.sender.send(_channel.deposit-value)) { throw; }
-            // DO NOT close the channel
+            
+            // Memorize the recipient and channel id before closing the channel
+            Channel_x = channels[id];
+            Channel_x+=1;
+            active_idx = active_ids[_channel.recipient];
+            active_idx+=1;
+            delete channels[h[0]];
+            delete active_ids[_channel.sender][_channel.recipient];
         }
         
         function ChannelTimeout(bytes32 id){
@@ -174,9 +181,14 @@ contract Switches {
             if (_channel.deposit == 0) { throw; }
             else if (_channel.timeout > now) { throw; }
             else if (!_channel.sender.send(_channel.deposit)) { throw; }
-            // Close the channel
+            
+            // Memorize the recipient and channel id before closing the channel
+            Channel_x = channels[id];
+            Channel_x+=1;
+            active_idx = active_ids[_channel.recipient];
+            active_idx+=1;
             delete channels[id];
-            delete active_ids[_channel.sender][_channel.recipient]; 
+            delete active_ids[_channel.sender][_channel.recipient];
         }
     }
 }
