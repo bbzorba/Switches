@@ -18,15 +18,19 @@ contract Switches {
             case addressA {
                 switch (channel) {
                     case x {
-                        GetChannelId();
                         OpenChannel();
+                        GetChannelId();
+                        SendMsg();
+                        VerifyMsg();
                         CloseChannel();
                         rankA++;
                     }
                     
                     case y {
-                        GetChannelId();
                         OpenChannel();
+                        GetChannelId();
+                        SendMsg();
+                        VerifyMsg();
                         CloseChannel();
                         rankA++;
                     }
@@ -40,15 +44,19 @@ contract Switches {
             case addressB {
                 switch (channel) {
                     case x {
-                        GetChannelId();
                         OpenChannel();
+                        GetChannelId();
+                        SendMsg();
+                        VerifyMsg();
                         CloseChannel();
                         rankB++;
                     }
                     
                     case z {
-                        GetChannelId();
                         OpenChannel();
+                        GetChannelId();
+                        SendMsg();
+                        VerifyMsg();
                         CloseChannel();
                         rankB++;
                     }
@@ -109,21 +117,22 @@ contract Switches {
         }
         
         
-        //Sending message
-        var sha3 = require('solidity-sha3').default;
-        var _value = 0.01*Math.pow(10, 18)    
-        var value = _value.toString(16)    
-        let _msg_hash = sha3(`0x${channel_id}`, _value);    
-        let msg_hash = Buffer.from(_msg_hash.substr(2, 64), 'hex');     
-        let sig = util.ecsign(msg_hash, keys.test.privateKey);    
-        let parsed_sig = {      
-          v: sig.v.toString(16),      
-          r: sig.r.toString('hex'),      
-          s: sig.s.toString('hex')    
-        };    
-        latest_value = value;    
-        latest_sig = parsed_sig;    
-        latest_msg_hash = msg_hash.toString('hex');
+        function SendMsg(){
+            var sha3 = require('solidity-sha3').default;
+            var _value = 0.01*Math.pow(10, 18)    
+            var value = _value.toString(16)    
+            let _msg_hash = sha3(`0x${channel_id}`, _value);    
+            let msg_hash = Buffer.from(_msg_hash.substr(2, 64), 'hex');     
+            let sig = util.ecsign(msg_hash, keys.test.privateKey);    
+            let parsed_sig = {      
+                v: sig.v.toString(16),      
+                r: sig.r.toString('hex'),      
+                s: sig.s.toString('hex')    
+            };    
+            latest_value = value;    
+            latest_sig = parsed_sig;    
+            latest_msg_hash = msg_hash.toString('hex');
+        }
         
         function VerifyMsg(bytes32[4] h, uint8 v, uint256 value) public constant returns (bool) {
             // h[0]    Channel id
