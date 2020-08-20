@@ -24,6 +24,7 @@ contract Switches {
                         VerifyMsg();
                         CloseChannel();
                         rankA++;
+                        break;
                     }
                     
                     case y {
@@ -33,6 +34,7 @@ contract Switches {
                         VerifyMsg();
                         CloseChannel();
                         rankA++;
+                        break;
                     }
                     
                     default {
@@ -50,6 +52,7 @@ contract Switches {
                         VerifyMsg();
                         CloseChannel();
                         rankB++;
+                        break;
                     }
                     
                     case z {
@@ -59,6 +62,7 @@ contract Switches {
                         VerifyMsg();
                         CloseChannel();
                         rankB++;
+                        break;
                     }
                     
                     default {
