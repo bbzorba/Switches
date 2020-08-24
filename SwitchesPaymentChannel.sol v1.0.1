@@ -5,7 +5,7 @@ contract SimplePaymentChannel {
     address public recipient;  // The account receiving the payments.
     uint256 public expiration; // Timeout in case the recipient never closes.
 
-    function SimplePaymentChannel(address _recipient, uint256 duration)
+    function PaymentChannel(address _recipient, uint256 duration)
         public
         payable
     {
@@ -98,7 +98,7 @@ contract Switches {
     uint rankA;
     uint rankB;
     uint rankC;
-    PaymentChannel pc;
+    SimplePaymentChannel pc;
     
     function Switches(address addr, uint32 channel) public returns (uint wallet) {
     assembly {
@@ -106,7 +106,7 @@ contract Switches {
             case 0x1234 {
                 switch channel 
                     case 5 {
-                        pc.SimplePaymentChannel(0x1234, 100);
+                        pc.PaymentChannel(0x1234, 100);
                         pc.isValidSignature(0x1234, 0x2345);
                         pc.close();
                         rankA=rankA+1;
