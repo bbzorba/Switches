@@ -100,22 +100,24 @@ contract Switches {
     uint rankC;
     SimplePaymentChannel pc;
     
-    function Switches(address addr, uint32 channel) public returns (uint wallet) {
+    function Switches(address addr, uint32 channel, uint32 senderSig) public returns (uint wallet) {
     assembly {
         switch addr()
             case 0x1234 {
                 switch channel 
                     case 5 {
                         pc.PaymentChannel(0x1234, 100);
-                        pc.isValidSignature(0x1234, 0x2345);
-                        pc.close();
+                        pc.isValidSignature(5, senderSig);
+                        pc.close(5, 0x2345);
                         rankA=rankA+1;
                         break;
                     }
                     
                     case 10 {
-                       
-                        rankA++;
+                       pc.PaymentChannel(0x1234, 100);
+                        pc.isValidSignature(10, senderSig);
+                        pc.close(5, 0x2345);
+                        rankA=rankA+1;
                         break;
                     }
                     
@@ -127,14 +129,18 @@ contract Switches {
             case addressB {
                 switch channel 
                     case 5 {
-                        
-                        rankB++;
+                        pc.PaymentChannel(0x1234, 100);
+                        pc.isValidSignature(5, senderSig);
+                        pc.close(5, 0x2345);
+                        rankB=rankB+1;
                         break;
                     }
                     
                     case 3 {
-                        
-                        rankB++;
+                        pc.PaymentChannel(0x1234, 100);
+                        pc.isValidSignature(3, senderSig);
+                        pc.close(3, 0x2345);
+                        rankB=rankB+1;
                         break;
                     }
                     
